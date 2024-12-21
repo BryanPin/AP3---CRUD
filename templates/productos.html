@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Gestión de Productos</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <h1>Gestión de Productos</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+            <li><strong>{{ category.capitalize() }}:</strong> {{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+    <h2>Agregar Producto</h2>
+    <form method="POST">
+        <table>
+            <tr>
+                <td>Nombre:</td>
+                <td><input type="text" name="nombre" required></td>
+            </tr>
+            <tr>
+                <td>Descripción:</td>
+                <td><textarea name="descripcion" required></textarea></td>
+            </tr>
+            <tr>
+                <td>Cantidad:</td>
+                <td><input type="number" name="cantidad" min="0" required></td>
+            </tr>
+            <tr>
+                <td>Precio:</td>
+                <td><input type="number" name="precio" min="0" step="0.01" required></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Agregar Producto</button></td>
+            </tr>
+        </table>
+    </form>
+    <h2>Lista de Productos</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+        </tr>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto['id'] }}</td>
+            <td>{{ producto['nombre'] }}</td>
+            <td>{{ producto['descripcion'] }}</td>
+            <td>{{ producto['cantidad'] }}</td>
+            <td>{{ producto['precio'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><a href="{{ url_for('logout') }}">Cerrar sesión</a></p>
+</body>
+</html>

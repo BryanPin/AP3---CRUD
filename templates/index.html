@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario</title>
+    <style>
+        /* Estilo para el campo de búsqueda */
+.search-input {
+    width: 100%;  /* Ancho completo */
+    padding: 15px;  /* Aumentar el relleno */
+    font-size: 18px;  /* Aumentar el tamaño de la fuente */
+    border: 2px solid #ccc;  /* Borde del campo */
+    border-radius: 5px;  /* Bordes redondeados */
+    box-sizing: border-box;  /* Incluir el relleno en el cálculo del ancho */
+}
+
+/* Estilo para el botón de búsqueda */
+.search-button {
+    padding: 15px 30px;  /* Aumentar el tamaño del botón */
+    font-size: 18px;  /* Aumentar el tamaño de la fuente */
+    background-color: #4CAF50;  /* Color de fondo verde */
+    color: white;  /* Color del texto */
+    border: none;  /* Quitar el borde */
+    border-radius: 5px;  /* Bordes redondeados */
+    cursor: pointer;  /* Puntero en forma de mano */
+    margin-left: 10px;  /* Espacio entre el campo de texto y el botón */
+}
+
+/* Estilo para el botón al pasar el ratón sobre él */
+.search-button:hover {
+    background-color: #45a049;  /* Cambio de color al pasar el ratón */
+}
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        button, a {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px;
+        }
+        button:hover, a:hover {
+            background-color: #45a049;
+        }
+        .logout {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido, {{ username }}!</h1>
+    <div class="logout">
+        <a href="{{ url_for('logout') }}">Cerrar Sesión</a>
+    </div><br><br>
+
+    <div>
+        <form action="{{ url_for('index') }}" method="GET">
+            <input type="text" name="buscar" placeholder="Buscar producto..." value="{{ request.args.get('buscar', '') }}" class="search-input">
+            <button type="submit" class="search-button">Buscar</button>
+        </form>
+    </div>
+    
+
+
+    <h2>Productos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto[1] }}</td>
+                <td>{{ producto[2] }}</td>
+                <td>{{ producto[3] }}</td>
+                <td>{{ producto[4] }}</td>
+                <td>
+                    <a href="{{ url_for('editar', id=producto[0]) }}">Editar</a> |
+                    <a href="{{ url_for('eliminar', id=producto[0]) }}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table><br><br><br>
+
+    <div>
+        <a href="{{ url_for('agregar') }}">Agregar Producto</a>
+    </div>
+</body>
+</html>
